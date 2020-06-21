@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/*
+  Footer and header style in general
+*/
+.header{
+  background: rgb(234,231,220);
+  background: linear-gradient(90deg, rgba(234,231,220,1) 0%, rgba(219,213,191,1) 35%, rgba(100,94,70,1) 100%);     
+}
+
+.footer {
+  background: rgb(100,94,70);
+  background: linear-gradient(90deg, rgba(100,94,70,1) 0%, rgba(219,213,191,1) 29%, rgba(234,231,220,1) 63%, rgba(100,94,70,1) 100%);
+}
+
+.footer p{
+  text-align: center;
+  padding: 1em 0;
+  margin: 0;
+}

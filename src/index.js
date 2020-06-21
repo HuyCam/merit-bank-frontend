@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// boostrap ver 3.4
+import './styles/bootstrap/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';

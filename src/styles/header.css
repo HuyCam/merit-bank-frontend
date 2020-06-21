@@ -1,0 +1,36 @@
+.header .logo{
+    width: 15em;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    margin: auto;
+    padding: 1em 0;
+}
+
+.logo-container {
+    display: table;
+}
+
+.navigation-container {
+   display: table;
+   background-color: rgb(250, 250, 250);
+}
+
+.nav-item {
+    display: inline-block;
+    padding: 1em 2em;
+    color: black;
+    font-weight: bold;
+}
+.nav-item:hover {
+    text-decoration: none;
+    background-color: #E98074;
+    color: white;
+}
+
+.current-tab {
+    background-color: #DAC3A5;
+}
