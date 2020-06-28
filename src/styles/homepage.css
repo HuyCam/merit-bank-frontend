@@ -55,3 +55,22 @@ Body style
 .content h1{
     font-weight: bold;
 }
+
+@media screen and (max-width: 920px) {
+    .jumbotron {
+        justify-content: center;
+    }
+
+    .parent-form{
+        width: 50%;
+        height: 80%;
+        margin: auto;
+    }
+    .img-full {
+        width: 80%;
+    }
+    .content-full {
+        width: 80%;
+    margin: auto;
+    }
+}

@@ -1,15 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// boostrap ver 3.4
-import './styles/bootstrap/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import RootReducer  from './reducers/rootReducer';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+
+// compose with redux devtool if have
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore( RootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+  <Provider store={store}>
+  <App />
+  </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

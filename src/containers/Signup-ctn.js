@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
-import {Control, LocalForm, Errors } from 'react-redux-form';
+import {Control, LocalForm, Errors, ChangeOptions } from 'react-redux-form';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { registerUser, updateRegisterStatus } from '../actions/actions';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Warning from '../components/Warning';
 
 import '../styles/signup.css';
 
@@ -13,26 +17,59 @@ const maxLength = len =>{
 const minLength = len => {
     return (val) => val && (val.length >= len); 
 }
-const isNumber = (val) => !isNaN(Number(val));
-const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
+// const isNumber = (val) => !isNaN(Number(val));
+// const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 class Signup extends Component {
-
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleBackHome = this.handleBackHome.bind(this);
 
     }
 
     handleSubmit(values) {
         console.log("Current submit " + JSON.stringify(values));
+        this.props.registerUser(values);
+    }
+    
+    handleBackHome() {
+        setTimeout(() => {
+            this.props.history.push('/');
+            this.props.updateRegisterStatus('');
+        }, 2000);
+        
     }
 
+    componentWillUnmount() {  
+        this.props.updateRegisterStatus('');
+    }
     render() {
+        const Loading = () => {
+            return (
+                <div className="d-flex justify-content-center">
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </div>
+                </div>
+            );
+        }
+
+        if (this.props.registerStatus === "SUCCESS") {
+            return (<div className="signup-page">
+            <Header mapType="homemap" currentTab=""/>
+            <h1>Successfully created a bank account, redirecting to home in a couple sec</h1>
+            <Loading />
+            {this.handleBackHome()}
+            <Footer />
+            </div>);
+        }
         return (
             <div className="signup-page">
             <Header mapType="homemap" currentTab=""/>
-            <h1>Sign Up</h1>
-            <LocalForm className="signup-form" onSubmit={(values) => this.handleSubmit(values)} >
+            <h1 className="title">Sign Up</h1>
+            <LocalForm className="page-form" onSubmit={(values) => {
+                this.handleSubmit(values)
+            }} >
                 <div className="form-group">
                     <Control.text model=".username" id="username" name="username" 
                         placeholder="User Name"
@@ -46,7 +83,7 @@ class Signup extends Component {
                         model=".username"
                         show="touched"
                         messages={{
-                            required: 'Required',
+                            required: 'Required\n',
                             minLength: 'Must be greater than 2 characters',
                             maxLength: 'Must be 30 characters or less'
                         }}
@@ -65,53 +102,32 @@ class Signup extends Component {
                         model=".password"
                         show="touched"
                         messages={{
-                            required: 'Required',
+                            required: 'Required\n',
                             minLength: 'Must be greater than 2 characters',
                             maxLength: 'Must be 30 characters or less'
                         }}
                     />
                 </div>
-                <div className="form-group">
-                    <Control.text model=".email" id="email" name="email" 
-                        placeholder="exammple@example.com"
-                        className="form-control"
-                        validators={{
-                            required, validEmail
-                        }}
-                    />
-                    <Errors
-                        className="text-danger"
-                        model=".email"
-                        show="touched"
-                        messages={{
-                            required: 'Required',
-                            validEmail: 'Email must be in the format name@domain'
-                        }}
-                    />
-                </div>
-                <div className="form-group">
-                    <Control.text model=".ssn" id="ssn" name="ssn" 
-                        placeholder="xxx-xx-xxxx"
-                        className="form-control"
-                        validators={{
-                            required, isNumber
-                        }}
-                    />
-                    <Errors
-                        className="text-danger"
-                        model=".ssn"
-                        show="touched"
-                        messages={{
-                            required: 'Required',
-                            isNumber: 'SSN must be numbers'
-                        }}
-                    />
-                </div>
                 <div className="btn-ctn"><button type="submit" className="btn btn-primary">Submit</button></div>
+                {this.props.registerStatus === "PENDING"  ? <Loading/> : '' }
+                {this.props.registerStatus === "FAILED" ? <Warning text={"Failed to register, user name may has been taken."}/> : ''}
             </LocalForm>
             <Footer />
             </div>)
     }
 }
 
-export default Signup;
+const mapStateToProps = (state) => {
+    return {
+        registerStatus: state.registerStatus
+    }
+}
+
+const mapDispatchToProps = (dispatch) => () => {
+    return {
+        registerUser: bindActionCreators(registerUser, dispatch),
+        updateRegisterStatus: bindActionCreators(updateRegisterStatus, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

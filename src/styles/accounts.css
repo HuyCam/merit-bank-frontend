@@ -1,0 +1,27 @@
+.container {
+    padding: 2em 0 1em 0;
+}
+.bank-card {
+    border: 1px solid black;
+    text-align: center;
+    padding: .5em;
+    margin-bottom: 10px;
+}
+
+.bank-card .account-type {
+    font-weight: bold;
+}
+
+.selected {
+    border-top: 5px solid #E98074;
+}
+
+.trans-func {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 0 2em 0;
+}
+
+.trans-func button {
+    margin: 0 2em;
+}

@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import {Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Warning from '../components/Warning';
+
+import { signIn, updateLoginStatus } from '../actions/actions';
 
 import '../styles/homepage.css';
 
@@ -24,11 +29,24 @@ class Home extends Component {
     }
 
     handleSubmit(values) {
-        console.log("Current submit " + JSON.stringify(values));
-        this.props.history.push('/account');    // route to /account path
+        this.props.signIn(values);
     }
 
+    componentWillUnmount() {  
+        this.props.updateLoginStatus('');
+    }
+
+    componentDidMount() {
+        /**
+         * This block of codes is for testing purpose
+         */
+        this.props.signIn({username: 'huycam', password: '123'});
+    }
     render() {
+        if (this.props.loginStatus === 'SUCCESS') {
+            this.props.history.push('/account');
+        }
+
         return (
             <div className="homepage">
                 <Header mapType="homemap" currentTab="Home"/>
@@ -49,6 +67,7 @@ class Home extends Component {
                             </div>
                             <div className="btn-ctn"><button type="submit" className="btn btn-primary">Submit</button></div>
                             <p><Link to="/signup">Register</Link></p>
+                            {this.props.loginStatus === 'FAILED' ? <Warning text="Failed to log in" /> : ''}
                         </LocalForm>
                     </div>
                 </div>
@@ -87,4 +106,17 @@ class Home extends Component {
     }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+    return({
+        loginStatus: state.loginStatus
+    });
+}
+
+const mapDispatchToProps = dispatch => () => {
+    return ({
+        signIn: bindActionCreators(signIn, dispatch),
+        updateLoginStatus: bindActionCreators(updateLoginStatus, dispatch)
+    })
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

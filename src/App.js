@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Switch, Route, Redirect, } from 'react-router-dom';
-import HomePage from './components/HomePage';
+import HomePage from './containers/HomePage-ctn';
 import AboutPage from './components/AboutPage';
-import AccountPage from './components/AccountPage';
-import Signup from './containers/Signup-cnt';
+import AccountPage from './containers/AccountPage-ctn';
+import Signup from './containers/Signup-ctn';
 
 function App() {
   return (
