@@ -1,12 +1,15 @@
-import React, {useState } from 'react';
+import React from 'react';
 import {Button, Modal} from 'react-bootstrap';
-import {Control, LocalForm, Errors, ChangeOptions } from 'react-redux-form';
+import {Control, LocalForm, Errors } from 'react-redux-form';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addAAccount } from '../actions/actions';
 
 const required = val => val && val.length;
 const isNumber = (val) => !isNaN(Number(val));
 const positive = (val) => parseFloat(val) > 0;
 
-class TransactionForm extends React.Component {
+class AddAAccountForm extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -19,7 +22,8 @@ class TransactionForm extends React.Component {
   }
 
   handleSubmit(values) {
-    console.log(JSON.stringify(values));
+    // this.props.handleAddAAccount(values);
+    this.props.addAAccount(values, this.props.jwt);
     this.handleClose();
   }
 
@@ -59,9 +63,9 @@ class TransactionForm extends React.Component {
             }}
             >
                 <option value="">Select an account type</option>
-                <option value="Checking">Checking Account</option>
-                <option value="Saving">Saving Account</option>
-                <option value="CD">CD Account</option>
+                <option value="checking">Checking Account</option>
+                <option value="saving">Saving Account</option>
+                <option value="cd">CD Account</option>
             </Control.select>
             <Errors
               className="text-danger"
@@ -73,7 +77,7 @@ class TransactionForm extends React.Component {
                   positive: 'Must be positive. '
               }}
             />
-            <Control.text model=".amount" id="amount" name="amount" 
+            <Control.text model=".balance" id="balance" name="balance" 
                           className="form-control form-field"
                           parser={val => (parseFloat(val) || 0)}
                           validators= {{
@@ -82,7 +86,7 @@ class TransactionForm extends React.Component {
             />
             <Errors
                 className="text-danger"
-                model=".amount"
+                model=".balance"
                 show="touched"
                 messages={{
                     required: 'Required field. ',
@@ -105,7 +109,18 @@ class TransactionForm extends React.Component {
       </>
     );
   }
- 
 }
 
-export default TransactionForm;
+const mapStateToProps = (state) => {
+  return {
+      jwt: state.JWT
+  }
+}
+
+const mapDispatchToProps = (dispatch) => () => {
+  return {
+      addAAccount: bindActionCreators(addAAccount, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps )(AddAAccountForm);

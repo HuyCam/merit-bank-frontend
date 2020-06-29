@@ -6,11 +6,11 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Table from '../components/Table';
 import AccountCard from '../components/AccountCard';
-import TransactionForm from './TransactionForm-ctn';
+import AddAAccountForm from './AddAAccountForm-ctn';
 import AccHolderForm from './AccHolderForm-ctn';
 import Logout from '../components/LogoutBtn';
 
-import { registerAccountHolder, logout } from '../actions/actions';
+import { registerAccountHolder, logout, addAAccount } from '../actions/actions';
 
 import '../styles/accounts.css';
 
@@ -42,7 +42,6 @@ class Account extends Component {
     }
 
     handleRegisterAccountHolder(values) {
-        console.log(values);
         this.props.registerAccountHolder(values, this.props.jwt);
     }
 
@@ -74,7 +73,7 @@ class Account extends Component {
             <Header mapType="accountmap" currentTab="Account"/>
                 <div className="container main-view">
                     <div className="function-ctn">
-                        <TransactionForm />
+                        <AddAAccountForm />
                         <Logout logout={this.props.logout}/>
                     </div>
                     <div className="row">
@@ -98,6 +97,8 @@ class Account extends Component {
     }
 }
 
+// TransactionForm-ctn <TransactionForm />
+
 const mapStateToProps = (state) => {
     return ({
         jwt: state.JWT,
@@ -110,7 +111,8 @@ const mapStateToProps = (state) => {
 const maptDispatchToProps = (dispatch) => () => {
     return ({
         registerAccountHolder: bindActionCreators(registerAccountHolder, dispatch),
-        logout: bindActionCreators(logout, dispatch)      
+        logout: bindActionCreators(logout, dispatch),
+        addAAccount: bindActionCreators(addAAccount, dispatch)
     })
 }
 

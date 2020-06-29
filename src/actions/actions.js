@@ -197,3 +197,70 @@ export const logout = () => {
          type: ActionType.LOG_OUT
      })
  }
+
+ /*
+ ADD ACCOUNT, hasn't implement add a cd account
+ */
+
+ export const addAAccount = ({balance, accType}, jwt) => {
+    console.log('add a account');
+    let link = '';
+    let action;
+    switch(accType) {
+        case 'checking':
+            link = APIs.ADD_CHECKING_ACCOUNT;
+            action = addAChecking;
+            break;
+        case 'saving':
+            link= APIs.ADD_SAVING_ACCOUNT;
+            action = addASaving;
+            break;
+        default:
+            break;
+    }
+
+
+    const myInit = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+            'Access-Control-Allow-Origin': '*'
+          },
+        body: JSON.stringify({
+            balance
+        }),
+        redirect: 'follow'
+      };
+    return dispatch => {
+        fetch(link, myInit)
+        .then(response => { 
+            if (response.status !== 200) {
+                console.log('Error')
+            }
+
+            return response.json();
+        })
+        .then(data=> {
+            console.log('data inside action',data);
+            if (data.accountNumber) {
+                dispatch(action(data));
+            }
+        })
+        .catch(error => console.log('error', error));;
+    }
+ }
+
+ const addAChecking = (data) => {
+     return {
+         type: ActionType.ADD_A_CHECKING,
+         payload: data
+     }
+ }
+
+ const addASaving = (data) => {
+    return {
+        type: ActionType.ADD_A_SAVING,
+        payload: data
+    }
+ }
