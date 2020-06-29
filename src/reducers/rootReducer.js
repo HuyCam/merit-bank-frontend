@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import { dummyData, registerStatus, JWT, loginStatus, cds, checkings, savings, profile, accHolderRegisterStatus} from './reducers';
+import { registerStatus, JWT, loginStatus, cds, checkings, savings, profile, accHolderRegisterStatus} from './reducers';
+import ActionType from '../actions/actionType';
 
-export const RootReducer = combineReducers({
-    dummy: dummyData,
+const appReducer = combineReducers({
     registerStatus: registerStatus,
     loginStatus,
     accHolderRegisterStatus,
@@ -12,5 +12,13 @@ export const RootReducer = combineReducers({
     checkings,
     cds
 });
+
+const RootReducer = (state, action) => {
+    if (action.type === ActionType.LOG_OUT) {
+        state = undefined
+    }
+
+    return appReducer(state, action)
+  }
 
 export default RootReducer;

@@ -11,7 +11,8 @@ const actionType = {
     ADD_SAVINGS: 'ADD_SAVINGS',
     UPDATE_SAVINGS: 'UPDATE_SAVINGSSAVINGS',
     ADD_CDS: 'ADD_CDS',
-    UPDATE_CDS: 'UPDATE_CDS'
+    UPDATE_CDS: 'UPDATE_CDS',
+    LOG_OUT: 'LOG_OUT'
 };
 
 export default actionType;

@@ -1,14 +1,5 @@
 import ActionType from '../actions/actionType';
 
-export const dummyData = (state = null, action) => {
-    switch(action.type) {
-        case ActionType.DUMMY_FETCH:
-            return action.payload;
-        default:
-            return state;
-    }
-}
-
 export const registerStatus = (state = '', action) => {
     switch(action.type) {
         case ActionType.REGISTER_STATUS:

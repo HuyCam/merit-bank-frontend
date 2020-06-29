@@ -1,6 +1,5 @@
 import ActionType from '../actions/actionType';
 import APIs from '../actions/API';
-const jwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJodXljYW0iLCJleHAiOjE1OTMzNDI3MTIsImlhdCI6MTU5MzMwNjcxMn0.afGVobvtWiFLtoxaYsy3xuzV_3qokjqfANHDzAvDLZw";
 
 export const autoLogin = () => {
     const myInit = {

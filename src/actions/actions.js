@@ -131,6 +131,10 @@ const addCDs = (data) => {
     })
 }
 
+/*
+* Register AccountHolder related actions
+*/
+
 export const registerAccountHolder = (data, jwt) => {
     const myInit = {
         method: 'POST',
@@ -183,3 +187,13 @@ const updateAccHolderRegisterStatus = (status) => {
         payload: status
     })
 }
+
+/**
+ * Log out
+ */
+
+export const logout = () => {
+     return({
+         type: ActionType.LOG_OUT
+     })
+ }

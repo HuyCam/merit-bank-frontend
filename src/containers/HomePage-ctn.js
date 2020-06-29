@@ -40,7 +40,7 @@ class Home extends Component {
         /**
          * This block of codes is for testing purpose
          */
-        this.props.signIn({username: 'huycam', password: '123'});
+        // this.props.signIn({username: 'huycam', password: '123'});
     }
     render() {
         if (this.props.loginStatus === 'SUCCESS') {

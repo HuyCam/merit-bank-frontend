@@ -8,8 +8,9 @@ import Table from '../components/Table';
 import AccountCard from '../components/AccountCard';
 import TransactionForm from './TransactionForm-ctn';
 import AccHolderForm from './AccHolderForm-ctn';
+import Logout from '../components/LogoutBtn';
 
-import { registerAccountHolder } from '../actions/actions';
+import { registerAccountHolder, logout } from '../actions/actions';
 
 import '../styles/accounts.css';
 
@@ -68,19 +69,14 @@ class Account extends Component {
         }
 
         const bankCards = this.renderAccountCard();
-        if (bankCards.length === 0) {
-            return (
-                <div>
-                <Header mapType="accountmap" currentTab="Account"/>
-                <h1 className="title">Please add an account</h1>
-                <Footer />
-                </div>)
-        }
         return (
             <div>
             <Header mapType="accountmap" currentTab="Account"/>
                 <div className="container main-view">
-                <TransactionForm />
+                    <div className="function-ctn">
+                        <TransactionForm />
+                        <Logout logout={this.props.logout}/>
+                    </div>
                     <div className="row">
                         <div className="col-md-3">
                             {bankCards}
@@ -113,7 +109,8 @@ const mapStateToProps = (state) => {
 
 const maptDispatchToProps = (dispatch) => () => {
     return ({
-        registerAccountHolder: bindActionCreators(registerAccountHolder, dispatch)
+        registerAccountHolder: bindActionCreators(registerAccountHolder, dispatch),
+        logout: bindActionCreators(logout, dispatch)      
     })
 }
 
