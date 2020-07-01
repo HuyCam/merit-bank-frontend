@@ -37,13 +37,24 @@ export const profile = (state = null, action) => {
 }
 
 export const checkings = (state = null, action) => {
+    let newState;
     switch (action.type) {
         case ActionType.ADD_CHECKINGS:
             return action.payload;
         case ActionType.ADD_A_CHECKING:
             console.log('data',action.payload);
-            let newState = JSON.parse(JSON.stringify(state));
+            newState = JSON.parse(JSON.stringify(state));
             newState.push(action.payload);
+            return newState;
+        case ActionType.UPDATE_CHECKINGS:
+            let updatedAcc = action.payload;
+            newState = JSON.parse(JSON.stringify(state));
+            newState.forEach((acc, index, arr) => {
+                if (acc.accountNumber === updatedAcc.accountNumber) {
+                    arr[index] =updatedAcc;
+                }
+                return acc;
+            })
             return newState;
         default:
             return state;
@@ -51,23 +62,23 @@ export const checkings = (state = null, action) => {
 }
 
 export const savings = (state = null, action) => {
+    let newState;
     switch (action.type) {
         case ActionType.ADD_SAVINGS:
             return action.payload;
-        case ActionType.UPDATE_SAVINGS:
-            // let updatedAcc = action.payload;
-            // let newState = JSON.parse(JSON.stringify(state));
-            // newState = newState.forEach(acc => {
-            //     if (acc.id === updatedAcc.id) {
-            //         acc = updatedAcc;
-            //     }
-            // });(acc => {
-
-            // })
-            break;
         case ActionType.ADD_A_SAVING:
-            let newState = JSON.parse(JSON.stringify(state));
+            newState = JSON.parse(JSON.stringify(state));
             newState.push(action.payload);
+            return newState;
+        case ActionType.UPDATE_SAVINGS:
+            let updatedAcc = action.payload;
+            newState = JSON.parse(JSON.stringify(state));
+            newState.forEach((acc, index, arr) => {
+                if (acc.accountNumber === updatedAcc.accountNumber) {
+                    arr[index] =updatedAcc;
+                }
+                return acc;
+            })
             return newState;
         default:
             return state;
@@ -92,3 +103,11 @@ export const accHolderRegisterStatus = (state = '', action) => {
     }
 }
 
+export const currentSelectedAccount = (state = -1, action) => {
+    switch(action.type) {
+        case ActionType.SELECT_ACCOUNT:
+            return action.payload;
+        default:
+            return state;
+    }
+}

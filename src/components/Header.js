@@ -32,18 +32,6 @@ class Header extends React.Component {
                 }
             ],
             accountmap: [
-                {
-                    url: '/account',
-                    text: 'Account'
-                },
-                {
-                    url: '/create-bank-account',
-                    text: 'Add Account'
-                },
-                {
-                    url: "/",
-                    text: 'Logout'
-                }
             ],
             dropdown: {
                 display: true

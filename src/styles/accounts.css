@@ -8,8 +8,14 @@
     margin-bottom: 10px;
 }
 
+/* bank car design */
 .bank-card .account-type {
     font-weight: bold;
+}
+
+.bank-card:hover {
+    background-color: #EAE7DC;
+    cursor: pointer;
 }
 
 .selected {
@@ -25,3 +31,8 @@
 .trans-func button {
     margin: 0 2em;
 }
+
+/* pop up form */
+.pop-up .form-field{
+    margin: 1em 0 1em 0;
+  }

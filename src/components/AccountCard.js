@@ -1,10 +1,10 @@
 import React from 'react';
 
-const AccountCard = ({accountType, balance}) => {
+const AccountCard = ({accountType, balance, handleSelectAccount, id, isSelected}) => {
     return(
-        <div className="bank-card selected">
+        <div onClick={() => handleSelectAccount(id)} className={`bank-card `+ (isSelected ? 'selected' : '') }>
             <h2 className="account-type">{accountType}</h2>
-            <p className="balance">{balance}</p>
+            <p className="balance">{new Intl.NumberFormat('en-emodeng',{ style: 'currency' ,currency: 'USD'}).format(balance)}</p>
         </div>
     );
 }

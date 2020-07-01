@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { registerStatus, JWT, loginStatus, cds, checkings, savings, profile, accHolderRegisterStatus} from './reducers';
+import { registerStatus, JWT, loginStatus, cds, checkings, savings, profile, accHolderRegisterStatus, currentSelectedAccount} from './reducers';
 import ActionType from '../actions/actionType';
 
 const appReducer = combineReducers({
@@ -10,7 +10,8 @@ const appReducer = combineReducers({
     JWT,
     savings,
     checkings,
-    cds
+    cds,
+    currentSelectedAccount
 });
 
 const RootReducer = (state, action) => {

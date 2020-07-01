@@ -4,13 +4,13 @@ import { bindActionCreators } from 'redux';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Table from '../components/Table';
+import AccountView from '../components/AccountView';
 import AccountCard from '../components/AccountCard';
 import AddAAccountForm from './AddAAccountForm-ctn';
 import AccHolderForm from './AccHolderForm-ctn';
 import Logout from '../components/LogoutBtn';
 
-import { registerAccountHolder, logout, addAAccount } from '../actions/actions';
+import { registerAccountHolder, logout, addAAccount, selectAccount } from '../actions/actions';
 
 import '../styles/accounts.css';
 
@@ -21,21 +21,41 @@ class Account extends Component {
         super(props);
 
         this.handleRegisterAccountHolder = this.handleRegisterAccountHolder.bind(this);
+        this.handleSelectAccount = this.handleSelectAccount.bind(this);
+    }
+
+    handleSelectAccount(accountNumber) {
+        this.props.selectAccount(accountNumber);
+        // console.log(e.target);
     }
 
     renderAccountCard() {
         const { checkings, savings, cds } = this.props;
 
         const checkingArray = checkings.map(acc => {
-            return <AccountCard id={acc.id} accountType="checking" balance={acc.balance} />
+            return <AccountCard id={acc.accountNumber} 
+                handleSelectAccount={this.handleSelectAccount}  
+                accountType="checking" balance={acc.balance} 
+                isSelected = {acc.accountNumber === this.props.currentSelectedAccount}
+                />
         });
 
         const savingsArray = savings.map(acc => {
-            return <AccountCard id={acc.id} accountType="saving" balance={acc.balance} />
+            return <AccountCard 
+            id={acc.accountNumber} 
+            handleSelectAccount={this.handleSelectAccount} 
+            accountType="saving" balance={acc.balance} 
+            isSelected = {acc.accountNumber === this.props.currentSelectedAccount}
+            />
         });
 
         const cdArray = cds.map(acc => {
-            return <AccountCard id={acc.id} accountType="cd" balance={acc.balance} />
+            return <AccountCard 
+            id={acc.accountNumber} 
+            handleSelectAccount={this.handleSelectAccount} 
+            accountType="cd" balance={acc.balance} 
+            isSelected = {acc.accountNumber === this.props.currentSelectedAccount}
+            />
         });
 
         return [...checkingArray, ...savingsArray, ...cdArray];
@@ -43,6 +63,36 @@ class Account extends Component {
 
     handleRegisterAccountHolder(values) {
         this.props.registerAccountHolder(values, this.props.jwt);
+    }
+
+    getCurrentSelectedAccount() {
+        const { checkings, savings, cds } = this.props;
+
+        let selectedAccount = checkings.find(acc => acc.accountNumber == this.props.currentSelectedAccount);
+        if (selectedAccount) {
+            return ({
+                acc: selectedAccount,
+                accountType: 'checking'
+            });
+        }
+
+        selectedAccount = savings.find(acc => acc.accountNumber == this.props.currentSelectedAccount);
+        if (selectedAccount) {
+            return ({
+                acc: selectedAccount,
+                accountType: 'saving'
+            });
+        }
+        
+        selectedAccount = cds.find(acc => acc.accountNumber == this.props.currentSelectedAccount);
+        if (selectedAccount) {
+            return ({
+                acc: selectedAccount,
+                accountType: 'cd'
+            });
+        }
+
+        return null;
     }
 
     render() {
@@ -67,7 +117,8 @@ class Account extends Component {
             )
         }
 
-        const bankCards = this.renderAccountCard();
+
+        const currentSelectedAccount = this.getCurrentSelectedAccount();
         return (
             <div>
             <Header mapType="accountmap" currentTab="Account"/>
@@ -78,16 +129,10 @@ class Account extends Component {
                     </div>
                     <div className="row">
                         <div className="col-md-3">
-                            {bankCards}
+                            {this.renderAccountCard()}
                         </div>
                         <div className="col-md-9">
-                            <h2 className="account-type">Checkings</h2>
-                            <p className="balance">3000</p>
-                            <div className="trans-func">
-                                <button className="btn btn-secondary">Deposit</button>
-                                <button className="btn btn-secondary">Withdraw</button>
-                            </div>
-                            <Table />
+                           <AccountView currentAccount={currentSelectedAccount}/>
                         </div>
                     </div>
                 
@@ -104,7 +149,8 @@ const mapStateToProps = (state) => {
         jwt: state.JWT,
         checkings: state.checkings,
         savings: state.savings,
-        cds: state.cds
+        cds: state.cds,
+        currentSelectedAccount: state.currentSelectedAccount
     })
 }
 
@@ -112,7 +158,8 @@ const maptDispatchToProps = (dispatch) => () => {
     return ({
         registerAccountHolder: bindActionCreators(registerAccountHolder, dispatch),
         logout: bindActionCreators(logout, dispatch),
-        addAAccount: bindActionCreators(addAAccount, dispatch)
+        addAAccount: bindActionCreators(addAAccount, dispatch),
+        selectAccount: bindActionCreators(selectAccount, dispatch)
     })
 }
 

@@ -8,6 +8,13 @@ import { addAAccount } from '../actions/actions';
 const required = val => val && val.length;
 const isNumber = (val) => !isNaN(Number(val));
 const positive = (val) => parseFloat(val) > 0;
+const toFlooat =val => {
+  if (!val) {
+    return 0;
+  }
+  
+  return parseFloat(val).toFixed(2);
+};
 
 class AddAAccountForm extends React.Component {
   constructor (props) {
@@ -22,8 +29,10 @@ class AddAAccountForm extends React.Component {
   }
 
   handleSubmit(values) {
-    // this.props.handleAddAAccount(values);
-    this.props.addAAccount(values, this.props.jwt);
+    let newValues = JSON.parse(JSON.stringify(values));
+    newValues.balance = parseFloat(newValues.balance);
+
+    this.props.addAAccount(newValues, this.props.jwt);
     this.handleClose();
   }
 
@@ -79,7 +88,7 @@ class AddAAccountForm extends React.Component {
             />
             <Control.text model=".balance" id="balance" name="balance" 
                           className="form-control form-field"
-                          parser={val => (parseFloat(val) || 0)}
+                          // parser={val => (parseFloat(val) || 0)}
                           validators= {{
                             isNumber, positive
                           }}
@@ -124,3 +133,4 @@ const mapDispatchToProps = (dispatch) => () => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps )(AddAAccountForm);
+

@@ -30,6 +30,7 @@ class Home extends Component {
 
     handleSubmit(values) {
         this.props.signIn(values);
+        
     }
 
     componentWillUnmount() {  

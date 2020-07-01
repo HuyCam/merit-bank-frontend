@@ -242,7 +242,6 @@ export const logout = () => {
             return response.json();
         })
         .then(data=> {
-            console.log('data inside action',data);
             if (data.accountNumber) {
                 dispatch(action(data));
             }
@@ -264,3 +263,69 @@ export const logout = () => {
         payload: data
     }
  }
+
+ /* select a account */
+export const selectAccount = (accountNumber) => {
+    return {
+        type: ActionType.SELECT_ACCOUNT,
+        payload: accountNumber
+    }
+ }
+
+ /**
+  * Transaction related action  
+  */
+ export const deposit = ({amount, accountNumber, accountType}, jwt) => {
+
+    let action;
+    switch(accountType) {
+        case 'checking':
+            action = updateCheckings;
+            break;
+        default:
+            action = updateSavings;
+            break;
+    }
+    const myInit = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+            'Access-Control-Allow-Origin': '*'
+          },
+        body: JSON.stringify({
+            amount
+        }),
+        redirect: 'follow'
+      };
+    return dispatch => {
+        fetch(`${APIs.DEPOSIT}/${accountNumber}`, myInit)
+        .then(response => { 
+            if (response.status !== 200) {
+                console.log('Error')
+            }
+
+            return response.json();
+        })
+        .then(data=> {
+            if (data.accountNumber) {
+                dispatch(action(data));
+            }
+        })
+        .catch(error => console.log('error', error));;
+    }
+ }
+
+const updateCheckings = (updatedAccount) => {
+    return ({
+        type: ActionType.UPDATE_CHECKINGS,
+        payload: updatedAccount
+    })
+}
+
+const updateSavings = (updatedAccount) => {
+return ({
+    type: ActionType.UPDATE_CHECKINGS,
+    payload: updatedAccount
+})
+}
