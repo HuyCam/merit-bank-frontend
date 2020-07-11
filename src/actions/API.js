@@ -6,5 +6,7 @@ export const APIs = {
     WITHDRAW: `${host}/Me/BankAccount/withdraw`,
     DEPOSIT: `${host}/Me/BankAccount/deposit`,
     ADD_CHECKING_ACCOUNT: `${host}/Me/CheckingAccounts`,
-    ADD_SAVING_ACCOUNT: `${host}/Me/SavingsAccounts`
+    ADD_SAVING_ACCOUNT: `${host}/Me/SavingsAccounts`,
+    TRANSFER: `${host}/Me/BankAccount/transfer`,
+    GETME: `${host}/Me`
 }

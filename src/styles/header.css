@@ -82,4 +82,10 @@
         width: 5em;
         text-align: center;
     }
-  }
+}
+
+@media screen and (max-width: 600px) {
+    .logo {
+        width:80%;
+    }
+}

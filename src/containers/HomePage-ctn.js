@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Warning from '../components/Warning';
+import { Fade } from 'react-awesome-reveal';
 
 import { signIn, updateLoginStatus } from '../actions/actions';
 
@@ -14,6 +15,8 @@ import '../styles/homepage.css';
 
 import elderlyPeople from '../images/elderly-couple.jpg';
 import mortgage from '../images/rounded-mortgage.png';
+import money from '../images/money.jpg';
+
 const style = {
     form: {
         border: '1px solid black',
@@ -29,8 +32,7 @@ class Home extends Component {
     }
 
     handleSubmit(values) {
-        this.props.signIn(values);
-        
+        this.props.signIn(values);        
     }
 
     componentWillUnmount() {  
@@ -41,7 +43,7 @@ class Home extends Component {
         /**
          * This block of codes is for testing purpose
          */
-        this.props.signIn({username: 'huycam', password: '123'});
+        // this.props.signIn({username: 'huycam', password: '123'});
     }
     render() {
         if (this.props.loginStatus === 'SUCCESS') {
@@ -73,6 +75,7 @@ class Home extends Component {
                     </div>
                 </div>
 
+                <Fade triggerOnce>
                 <div className="container-fluid ctn-body">
                     <div className="row">
                         <div className="col-md-5">
@@ -85,9 +88,10 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
-                    
                 </div>
+                </Fade>
 
+                <Fade triggerOnce>
                 <div className="container-fluid ctn-body">
                     <div className="row">
                         <div className="col-md-5">
@@ -102,6 +106,24 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
+                </Fade>
+
+                <Fade triggerOnce>
+                <div className="container-fluid ctn-body">
+                    <div className="row">
+                        <div className="col-md-5">
+                            <img className="img-minimized" alt="money" src={money} />
+                        </div>
+                        <div className="col-md-7">
+                            <div className="content content-full">
+                                <h1>CD Account</h1>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <a href="/calculator.html"><button className="btn btn-secondary">Calculator</button></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </Fade>
                 <Footer />
             </div>);
     }

@@ -33,6 +33,7 @@ Body style
 */
 .ctn-body {
     margin-top: 4em;
+    margin-bottom: 4em;
 }
 
 .img-minimized {
@@ -72,5 +73,21 @@ Body style
     .content-full {
         width: 80%;
     margin: auto;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .jumbotron {
+        justify-content: center;
+    }
+
+    .parent-form{
+        width: 90%;
+        height: 80%;
+        margin: auto;
+    }
+
+    .parent-form .sign-in-form {
+        margin: auto;
     }
 }

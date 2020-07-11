@@ -1,5 +1,5 @@
 import React from 'react';
-import {Control, LocalForm, Errors, ChangeOptions } from 'react-redux-form';
+import {Control, LocalForm, Errors } from 'react-redux-form';
 
 import { connect } from 'react-redux';
 

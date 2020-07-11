@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import { Fade } from 'react-awesome-reveal';
 
 import '../styles/about.css'
 import huy from '../images/devs/huy.jpg';
@@ -8,9 +9,10 @@ import austin from '../images/devs/austin.jpg';
 import alice from '../images/devs/alice.jpg';
 import linkedinIcon from '../images/linkedin.png';
 
+
 const About = () => {
     return (
-        <div className="about">
+        <Fade className="about">
             <Header mapType="homemap" currentTab="About"/>
             <div className="title">
                 <h1>Dev Team</h1>
@@ -38,7 +40,7 @@ const About = () => {
                     </div>
                     <div className="info">
                         <h3>Huy Cam</h3>
-                        <p className="role">Front End</p>
+                        <p className="role">Full-Stack Developer</p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     </div>
                     <div className="linkedin">
@@ -52,7 +54,7 @@ const About = () => {
                     </div>
                     <div className="info">
                         <h3>Alice Yeojin Yoo</h3>
-                        <p className="role">Back End</p>
+                        <p className="role">Back End Developer</p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     </div>
                     <div className="linkedin">
@@ -61,7 +63,7 @@ const About = () => {
                 </div>                
             </div>
             <Footer />
-        </div>
+        </Fade>
     );
 }
 

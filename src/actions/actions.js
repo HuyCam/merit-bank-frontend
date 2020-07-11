@@ -203,7 +203,6 @@ export const logout = () => {
  */
 
  export const addAAccount = ({balance, accType}, jwt) => {
-    console.log('add a account');
     let link = '';
     let action;
     switch(accType) {
@@ -273,10 +272,9 @@ export const selectAccount = (accountNumber) => {
  }
 
  /**
-  * Transaction related action  
+  * Transaction related actions  
   */
  export const deposit = ({amount, accountNumber, accountType}, jwt) => {
-
     let action;
     switch(accountType) {
         case 'checking':
@@ -299,6 +297,7 @@ export const selectAccount = (accountNumber) => {
         redirect: 'follow'
       };
     return dispatch => {
+        dispatch(withdrawDepositStatus('PENDING'));
         fetch(`${APIs.DEPOSIT}/${accountNumber}`, myInit)
         .then(response => { 
             if (response.status !== 200) {
@@ -310,6 +309,52 @@ export const selectAccount = (accountNumber) => {
         .then(data=> {
             if (data.accountNumber) {
                 dispatch(action(data));
+                dispatch(withdrawDepositStatus(''));
+            }
+        })
+        .catch(error => console.log('error', error));;
+    }
+ }
+
+ export const withdraw = ({amount, accountNumber, accountType}, jwt) => {
+    let action;
+    switch(accountType) {
+        case 'checking':
+            action = updateCheckings;
+            break;
+        case 'saving':
+            action = updateSavings;
+            break;
+        default:
+            break;
+    }
+
+    const myInit = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+            'Access-Control-Allow-Origin': '*'
+          },
+        body: JSON.stringify({
+            amount
+        }),
+        redirect: 'follow'
+      };
+    return dispatch => {
+        dispatch(withdrawDepositStatus('PENDING'));
+        fetch(`${APIs.WITHDRAW}/${accountNumber}`, myInit)
+        .then(response => { 
+            if (response.status !== 200) {
+                console.log('Error')
+            }
+
+            return response.json();
+        })
+        .then(data=> {
+            if (data.accountNumber) {
+                dispatch(action(data));
+                dispatch(withdrawDepositStatus(''));
             }
         })
         .catch(error => console.log('error', error));;
@@ -324,8 +369,94 @@ const updateCheckings = (updatedAccount) => {
 }
 
 const updateSavings = (updatedAccount) => {
-return ({
-    type: ActionType.UPDATE_CHECKINGS,
-    payload: updatedAccount
-})
+    return ({
+        type: ActionType.UPDATE_SAVINGS,
+        payload: updatedAccount
+    })
+}
+
+export const tranfer = ({originID, destID, amount}, jwt) => {
+    const myInit = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+            'Access-Control-Allow-Origin': '*'
+          },
+        body: JSON.stringify({
+            destID,
+            amount
+        }),
+        redirect: 'follow'
+      };
+    return dispatch => {
+        dispatch(transferState('PENDING'));
+        fetch(`${APIs.TRANSFER}/${originID}`, myInit)
+        .then(response => { 
+            if (response.status !== 200) {
+                console.log('Error with transfering money, response code ' + response.status0)
+            } else {
+                dispatch(transferState('SUCCESS'));
+            }
+        })
+        .catch(error => console.log('Error in transfering money', error));;
+    }
+}
+
+export const transferState = (status) => {
+    return ({
+        type: ActionType.TRANSFER_STATUS,
+        payload: status
+    })
+}
+
+export const getMe = (jwt) => {
+    const myInit = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwt}`,
+            'Access-Control-Allow-Origin': '*'
+          },
+        redirect: 'follow'
+      };
+
+    return dispatch => {
+        fetch(APIs.GETME, myInit)
+        .then(response => { 
+            if (response.status !== 200) {
+                console.log('Error with get me, response code ' + response.status)
+            } else {
+               
+            }
+
+            return response.json();
+        })
+        .then(data=> {
+            if (data) {
+                const {id,firstName,middleName,lastName,ssn, email} = data;
+                const {checkingAccounts, savingsAccounts, cdaccounts} = data;
+
+                dispatch(addProfile({
+                    id,
+                    firstName,
+                    middleName,
+                    lastName,
+                    ssn,
+                    email
+                }))
+                dispatch(addSavings(savingsAccounts));
+                dispatch(addCheckings(checkingAccounts));
+                dispatch(addCDs(cdaccounts));
+            }
+
+        });
+    }
+}
+
+export const withdrawDepositStatus = (status) => {
+    return ({
+        type: ActionType.WITHDRAW_DEPOSIT_STATUS,
+        payload: status
+    })
 }

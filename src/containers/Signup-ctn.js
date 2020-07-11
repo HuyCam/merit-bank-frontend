@@ -57,15 +57,18 @@ class Signup extends Component {
         if (this.props.registerStatus === "SUCCESS") {
             return (<div className="signup-page">
             <Header mapType="homemap" currentTab=""/>
+            <div className="beautify-height">
             <h1>Successfully created a bank account, redirecting to home in a couple sec</h1>
             <Loading />
+            </div>
             {this.handleBackHome()}
             <Footer />
             </div>);
         }
         return (
-            <div className="signup-page">
+            <div className="signup-page ">
             <Header mapType="homemap" currentTab=""/>
+            <div className="beautify-height">
             <h1 className="title">Sign Up</h1>
             <LocalForm className="page-form" onSubmit={(values) => {
                 this.handleSubmit(values)
@@ -112,6 +115,7 @@ class Signup extends Component {
                 {this.props.registerStatus === "PENDING"  ? <Loading/> : '' }
                 {this.props.registerStatus === "FAILED" ? <Warning text={"Failed to register, user name may has been taken."}/> : ''}
             </LocalForm>
+            </div>
             <Footer />
             </div>)
     }

@@ -25,10 +25,6 @@ class Header extends React.Component {
                 {
                     url: '/about',
                     text: 'About'
-                },
-                {
-                    url: '/cd',
-                    text: 'CD'
                 }
             ],
             accountmap: [
@@ -52,7 +48,6 @@ class Header extends React.Component {
             } else {
                 return <NavLink id={nav.text} className={`nav-item`} to={nav.url}>{nav.text}</NavLink>
             }
-            
         })
         return navTabs;
     }
@@ -67,6 +62,7 @@ class Header extends React.Component {
 
     render() {
         let display = this.state.dropdown.display ? "dropdown" : "";
+        let dropdownHTML = this.props.mapType === 'homemap' ? <img onClick={this.handleDropdown} className="dropdown-icon" src={dropdownIcon} /> : '';
         return(
             <div className="header">
                 <div className="header-container">
@@ -74,7 +70,7 @@ class Header extends React.Component {
                     <img className="logo" src={MAlogo} alt="Merit America logo" />
                 </div>
                 <div className="navigation-bar">
-                    <img onClick={this.handleDropdown} className="dropdown-icon" src={dropdownIcon} />
+                    {dropdownHTML}
                     <div className={`navigation-container ${display}`}>
                         {this.renderNavLink()}
                     </div>

@@ -31,3 +31,7 @@ code {
   margin: 0;
 }
 
+.beautify-height {
+  min-height: 600px;
+}
+

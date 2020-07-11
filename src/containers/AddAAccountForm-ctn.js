@@ -8,13 +8,6 @@ import { addAAccount } from '../actions/actions';
 const required = val => val && val.length;
 const isNumber = (val) => !isNaN(Number(val));
 const positive = (val) => parseFloat(val) > 0;
-const toFlooat =val => {
-  if (!val) {
-    return 0;
-  }
-  
-  return parseFloat(val).toFixed(2);
-};
 
 class AddAAccountForm extends React.Component {
   constructor (props) {

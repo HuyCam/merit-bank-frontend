@@ -4,8 +4,9 @@ import { bindActionCreators } from 'redux';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import AccountView from '../components/AccountView';
+import AccountView from './AccountView-ctn';
 import AccountCard from '../components/AccountCard';
+import Profile from './Profile-ctn';
 import AddAAccountForm from './AddAAccountForm-ctn';
 import AccHolderForm from './AccHolderForm-ctn';
 import Logout from '../components/LogoutBtn';
@@ -111,21 +112,23 @@ class Account extends Component {
             return (
                 <>
                 <Header mapType="accountmap" currentTab="Account"/>
-                <AccHolderForm handleRegister={this.handleRegisterAccountHolder}/>
+                <div className ="beautify-height">
+                    <AccHolderForm handleRegister={this.handleRegisterAccountHolder}/>
+                </div>
                 <Footer />
                 </>
             )
         }
 
-
         const currentSelectedAccount = this.getCurrentSelectedAccount();
         return (
             <div>
             <Header mapType="accountmap" currentTab="Account"/>
-                <div className="container main-view">
-                    <div className="function-ctn">
-                        <AddAAccountForm />
-                        <Logout logout={this.props.logout}/>
+                <div className="container main-view beautify-height">
+                    <div className="function-ctn d-flex justify-content-center">
+                        <div className="ctn"><Profile /></div>
+                        <div className="ctn"><AddAAccountForm /></div>
+                        <div className="ctn"><Logout logout={this.props.logout}/></div>
                     </div>
                     <div className="row">
                         <div className="col-md-3">
@@ -135,7 +138,6 @@ class Account extends Component {
                            <AccountView currentAccount={currentSelectedAccount}/>
                         </div>
                     </div>
-                
                 </div>
             <Footer />
             </div>);

@@ -18,6 +18,24 @@ export const loginStatus = (state ='', action) => {
     }
 }
 
+export const transferStatus = (state = '', action) => {
+    switch(action.type) {
+        case ActionType.TRANSFER_STATUS:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
+export const withdrawDepositStatus = (state = '', action) => {
+    switch(action.type) {
+        case ActionType.WITHDRAW_DEPOSIT_STATUS:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
 export const JWT = (state = null, action) => {
     switch (action.type) {
         case ActionType.JWT:
